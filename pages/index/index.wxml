@@ -1,13 +1,36 @@
 <!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+
+<cu-custom isBack="{{false}}" bgColor="bg-oem-yellow">
+	<view slot="content">路书导航</view>
+</cu-custom>
+<view class="cu-bar search bg-oem-yellow">
+	<view class="action">
+		<text class="location-text">{{info.startLocation.list[startDefault].name}}</text>
+		<text class="cuIcon-triangledownfill"></text>
+	</view>
+	<view class="search-form round">
+		<text class="cuIcon-search" style="font-size:30rpx;" bindtap="search"></text>
+		<input type="text" placeholder="搜索目的地" model:value="{{object}}" ></input>
+		<text class="cuIcon-scan" style="font-size:30rpx;"></text>
+	</view>
+</view>
+
+<view class="bg-oem-yellow first">
+	<scroll-view scroll-x class="nav" style="width:78%" scroll-with-animation>
+		<view class="cu-item {{index == TabCur ? 'white-color' : ''}}" wx:for="{{info.fenlei}}" wx:key="index" bindtap="tabSelect" data-id="{{index}}">
+			<text wx:if="{{item.id}}" >·</text>
+			{{item.name}}
+		</view>
+	</scroll-view>
+	<view class="nav flex align-center" style="width:20%;">
+		<text>|</text>
+		<view class="cu-item white-color">重置</view>
+	</view>
+</view>
+<view class="second bg-oem-yellow">
+	<scroll-view scroll-x class="nav" scroll-with-animation>
+		<view class="cu-item {{index == info.fenlei[TabCur].chirdTabCur ? 'white-color' : ''}}" style="font-size:24rpx;" wx:for="{{info.fenlei[TabCur].chird}}" wx:key="index" bindtap="tabSelect2" data-id="{{item.id}}" data-index="{{index}}">
+			{{item.name}}
+		</view>
+	</scroll-view>
 </view>
