@@ -58,6 +58,11 @@ Page({
     object: '', //目的地
   },
   onLoad: function () {},
+  onShow: function () {
+    this.setData({
+      startDefault: app.globalData.startDefault
+    })
+  },
   tabSelect(e) {
     this.setData({
       TabCur: e.currentTarget.dataset.id
@@ -74,9 +79,27 @@ Page({
   },
 
   search() {
+    console.log("搜索")
+  },
 
+  scan() {
+    wx.showActionSheet({
+      itemList: ["扫码", "扫码历史"],
+      complete: (res) => {},
+      fail: (res) => {},
+      success: (result) => {
+        if (result.tapIndex == 0) {
+          wx.scanCode({
+            complete: (res) => {},
+            fail: (res) => {},
+            onlyFromCamera: false,
+            scanType: [],
+            success: (result) => {},
+          })
+        } else if (result.tapIndex == 1) {
 
-
-
+        }
+      },
+    })
   }
 })
