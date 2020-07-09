@@ -5,6 +5,12 @@
   height: 100vh;
 }
 
+.word-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .nav-list {
   display: flex;
   flex-wrap: wrap;

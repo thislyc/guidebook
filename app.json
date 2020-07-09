@@ -1,17 +1,19 @@
 {
-  "pages":[
-    "pages/index/index"
+  "pages": [
+    "pages/index/index",
+    "pages/scanhistory/scanhistory",
+    "pages/startlocation/startlocation"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "盖的路书",
-    "navigationBarTextStyle":"black",
-	   "navigationStyle": "custom"
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
-    "usingComponents": {
-      "cu-custom": "/colorui/components/cu-custom"
-    }
+  "usingComponents": {
+    "cu-custom": "/colorui/components/cu-custom"
+  }
 }

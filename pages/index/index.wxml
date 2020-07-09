@@ -4,13 +4,13 @@
 	<view slot="content" style="font-family: PingFangSC-bold;font-weight:bold;">路书导航</view>
 </cu-custom>
 <view class="cu-bar search bg-oem-yellow">
-	<view class="action">
-		<text class="location-text">{{info.startLocation.list[startDefault].name}}</text>
+	<view class="action" bindtap="locationTap">
+		<text class="location-text">{{info.startLocation[startDefault].name}}</text>
 		<text class="cuIcon-triangledownfill"></text>
 	</view>
 	<view class="search-form round">
 		<text class="cuIcon-search" style="font-size:30rpx;" bindtap="search"></text>
-		<input type="text" placeholder="搜索目的地" model:value="{{object}}" ></input>
+		<input type="text" placeholder="搜索目的地" model:value="{{object}}"></input>
 		<text class="cuIcon-scan" style="font-size:30rpx;" bindtap="scan"></text>
 	</view>
 </view>
@@ -18,13 +18,13 @@
 <view class="bg-oem-yellow first">
 	<scroll-view scroll-x class="nav" style="width:78%" scroll-with-animation>
 		<view class="cu-item {{index == TabCur ? 'white-color' : ''}}" wx:for="{{info.fenlei}}" wx:key="index" bindtap="tabSelect" data-id="{{index}}">
-			<text wx:if="{{info.fenlei[TabCur].chirdTabCur!=0&&index == TabCur}}" >·</text>
+			<text wx:if="{{info.fenlei[index].chirdTabCur!=0}}" >·</text>
 			{{item.name}}
 		</view>
 	</scroll-view>
 	<view class="nav flex align-center" style="width:20%;">
 		<!-- <text>|</text> -->
-		<view class="cu-item white-color">重置</view>
+		<view class="cu-item white-color" bindtap="restTap">重置</view>
 	</view>
 </view>
 <view class="second bg-oem-yellow">
@@ -33,4 +33,31 @@
 			{{item.name}}
 		</view>
 	</scroll-view>
+</view>
+
+<view class="list">
+	<view class="cell" wx:for="{{list}}">
+		<view class="first word-line">{{item.title}}</view>
+		<view class="second flex">
+			<view class="flex left">
+				<view>{{item.start}}-{{item.end}}</view>
+				<image class="line" src="../../image/index/line.png"></image>
+				<view class="location">{{item.day}}天</view>
+				<image class="line" src="../../image/index/line.png"></image>
+				<view>里程{{item.km}}公里</view>
+
+			</view>
+			<view class="flex right">
+				<image class="view" src="../../image/index/view.png"></image>
+				<view>100</view>
+			</view>
+		</view>
+		<view class="third flex">
+			<view class="pic" wx:for="{{item.images}}" wx:key="index" style=" background-image: url({{item}});">
+				<view class="num flex align-center justify-center" wx:if="{{index==2}}">99</view>
+			</view>
+		</view>
+
+
+	</view>
 </view>

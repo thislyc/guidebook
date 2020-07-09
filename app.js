@@ -22,5 +22,6 @@ App({
 	},
 	globalData: {
 		startDefault:0,//默认出发地的index
+		startLocation:[],//出发地点列表
 	}
 })

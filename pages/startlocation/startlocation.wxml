@@ -1,0 +1,11 @@
+<!--pages/startlocation/startlocation.wxml-->
+<cu-custom isBack="{{true}}" bgColor="bg-oem-yellow">
+	<view slot="content" style="font-family: PingFangSC-bold;font-weight:bold;">选择城市</view>
+</cu-custom>
+<view class="location">
+	<view class="title">出发地</view>
+
+  <view class="mylist">
+    <view class="item" wx:for="{{list}}" wx:key="index" data-index="{{index}}" bindtap="selectTap">{{item.name}}</view>
+  </view>
+</view>

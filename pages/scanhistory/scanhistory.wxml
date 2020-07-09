@@ -1,0 +1,4 @@
+<!--pages/scanhistory/scanhistory.wxml-->
+<cu-custom isBack="{{true}}" bgColor="bg-oem-yellow">
+	<view slot="content" style="font-family: PingFangSC-bold;font-weight:bold;">扫码记录</view>
+</cu-custom>

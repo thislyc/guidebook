@@ -1,0 +1,47 @@
+/* pages/startlocation/startlocation.wxss */
+.location {
+  padding: 32rpx;
+}
+
+page {
+  background-color: #fff;
+}
+
+.title {
+  height: 34rpx;
+  color: rgba(77, 77, 86, 1);
+  font-size: 24rpx;
+  text-align: left;
+  font-family: PingFangSC-regular;
+}
+
+.mylist {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 16rpx auto 0rpx auto;
+  position: relative;
+}
+
+
+.mylist .item:not(:nth-child(3n)) {
+  margin-right: 10rpx;
+}
+
+.mylist .item {
+  margin-bottom: 24rpx;
+  width: calc((100% - 20rpx)/3);
+  color: rgba(41, 41, 48, 1);
+  font-size: 28rpx;
+  font-family: PingFangSC-regular;
+  height: 72rpx;
+  line-height: 40rpx;
+  border-radius: 36rpx;
+  background-color: rgba(242, 242, 242, 1);
+  text-align: center;
+  border: 2rpx solid rgba(255, 255, 255, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
