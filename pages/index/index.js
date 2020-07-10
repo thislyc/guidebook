@@ -5,83 +5,49 @@ const app = getApp()
 Page({
   data: {
     info: {
-      startLocation: [{
-        id: 1,
-        name: "成都"
-      }, {
-        id: 2,
-        name: "北京"
-      }],
-      fenlei: [{
-          name: '主题',
-          chirdTabCur: 0,
-          chird: [{
-              id: 1,
-              name: '全部'
-            }, {
-              id: 2,
-              name: '测试1'
-            },
-            {
-              id: 3,
-              name: '测试2'
-            }
-          ]
-        },
-        {
-          name: '行程天数',
-          chirdTabCur: 0,
-          chird: [{
-              id: 1,
-              name: '不限'
-            }, {
-              id: 2,
-              name: '测试1'
-            },
-            {
-              id: 3,
-              name: '测试2'
-            }
-          ]
-        },
+      startLocation: [
+        //   {
+        //   id: 1,
+        //   name: "成都"
+        // }
+      ],
+      fenlei: [
+        // {
+        //   name: '行程天数',
+        //   chirdTabCur: 0,
+        //   chird: [{
+        //       id: 1,
+        //       name: '不限'
+        //     }, {
+        //       id: 2,
+        //       name: '测试1'
+        //     },
+        //     {
+        //       id: 3,
+        //       name: '测试2'
+        //     }
+        //   ]
+        // },
 
 
       ]
     },
-    list: [{
-      id: '12',
-      title: '稻城亚丁色达7天6晚',
-      start: '成都市',
-      end: '稻城县',
-      day: 7,
-      km: 2122,
-      images: ["http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
-        "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
-        "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg"
-      ]
-    }, {
-      id: '122',
-      title: '稻城亚丁色达7天6晚',
-      start: '成都市',
-      end: '稻城县',
-      day: 7,
-      km: 2122,
-      images: ["http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
-        "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
-        "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg"
-      ]
-    }, {
-      id: '122',
-      title: '稻城亚丁色达7天6晚',
-      start: '成都市',
-      end: '稻城县',
-      day: 7,
-      km: 2122,
-      images: ["http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
-        "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
-        "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg"
-      ]
-    }],
+    list: [
+      //   {
+      //   id: '12',
+      //   title: '稻城亚丁色达7天6晚',
+      //   start: '成都市',
+      //   end: '稻城县',
+      //   day: 7,
+      //   view: 10,
+      //   imageNum: 99,
+      //   km: 2122,
+      //   images: ["http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
+      //     "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
+      //     "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg"
+      //   ]
+      // }
+    ],
     TabCur: 0,
     startDefault: 0, //出发地
     object: '', //目的地
@@ -96,7 +62,25 @@ Page({
   },
 
   getInfo() {
-    app.globalData.startLocation = this.data.info.startLocation
+    wx.request({
+      url: app.globalData.apiUrl + '/api/v1/trips.json',
+      data: {
+
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (result) => {
+        console.log(result.data)
+        this.setData({
+          info: result.data.info,
+          list: result.data.list
+        })
+        app.globalData.startLocation = this.data.info.startLocation
+      },
+      fail: (res) => {},
+      complete: (res) => {},
+    })
   },
 
   tabSelect(e) {
@@ -158,9 +142,9 @@ Page({
     })
   },
 
-  gotoInfo(e){
+  gotoInfo(e) {
     wx.navigateTo({
-      url: '../info/info?id='+e.currentTarget.dataset.id,
+      url: '../info/info?id=' + e.currentTarget.dataset.id,
     })
   }
 

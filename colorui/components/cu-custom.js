@@ -15,6 +15,10 @@ Component({
       type: String,
       default: ''
     }, 
+    opacity: {
+      type: String,
+      default: ''
+    }, 
     isCustom: {
       type: [Boolean, String],
       default: false

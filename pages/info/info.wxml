@@ -1,10 +1,73 @@
-<!--pages/info/info.wxml-->
-<custom transparent="{{true}}" top="{{scrollTop}}" isBack="{{true}}">
-			<block slot="right">
-				<navigator class="action roundIcon" url="/pages/notice/notice" hover-class="none">
-					<view class="icon-notice">
-						<view class="cu-tag badge round"></view>
+<!--pages/scroll/scroll.wxml-->
+<view style="height:100%;position:fixed;width:100%;background-color:#F3F3F3;">
+	<scroll-view scroll-y="false" bindscroll="scroll" style="height:100%;">
+		<cu-custom isBack="{{true}}" bgColor="bg-oem-yellow" opacity="{{scrollTop / 200 > 1 ? 1 : scrollTop / 200}}">
+		</cu-custom>
+
+		<swiper class="screen-swiper round-dot" style="height:750rpx;" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+			<swiper-item wx:for="{{swiperList}}" wx:key="index">
+				<image style="height:750rpx;" src="{{item}}" mode="aspectFill"></image>
+			</swiper-item>
+		</swiper>
+
+    <view class="num flex align-center justify-center">99</view>
+
+		<view class="info">
+			<view class="flex align-center justify-between">
+				<view class="info-left word-line">
+					稻城亚丁色达7天6晚
+				</view>
+				<view class="info-right">
+					<view class="cu-btn round line-yellow button-hover down">离线</view>
+					<image class="share" src="/image/info/share.png"></image>
+				</view>
+			</view>
+
+			<view class="flex align-center justify-between second">
+				<view class="second-left flex align-center flex-wrap">
+					<view class="padding-right-sm">
+						<view class="cu-tag bg-yellow label">测试</view>
 					</view>
-				</navigator>
-			</block>
-		</custom>
+					<view class="padding-right-sm">
+						<view class="cu-tag bg-yellow label">测试</view>
+					</view>
+					<view class="padding-right-sm">
+						<view class="cu-tag bg-yellow label">测试</view>
+					</view>
+					<view class="padding-right-sm">
+						<view class="cu-tag bg-yellow label">测试</view>
+					</view>
+
+				</view>
+				<view class="second-right">
+					<image class="view" src="../../image/index/view.png"></image>
+					<view>122</view>
+				</view>
+
+			</view>
+			<view class="flex margin-bottom-sm">
+				<view class="flex-sub margin-right-xs radius info-center word-line">
+					<image class="info-icon" src="/image/info/day.png"></image>
+					<view>行程天数: 5天</view>
+				</view>
+				<view class="flex-sub radius info-center word-line">
+					<image class="info-icon" src="/image/info/km.png"></image>
+					<view>行驶里程: 2139公里</view>
+				</view>
+			</view>
+			<view class="flex">
+				<view class="flex-sub margin-right-xs radius info-center word-line">
+					<image class="info-icon" src="/image/info/object.png"></image>
+					<view>目的地: 稻城县等</view>
+				</view>
+				<view class="flex-sub radius info-center word-line">
+					<image class="info-icon" src="/image/info/price.png"></image>
+					<view>参考费用: 2199/人</view>
+				</view>
+			</view>
+		</view>
+
+    
+
+	</scroll-view>
+</view>

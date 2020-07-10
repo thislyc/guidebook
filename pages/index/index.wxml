@@ -36,7 +36,7 @@
 </view>
 
 <view class="list">
-	<view class="cell" wx:for="{{list}}" data-id="{{item.id}}" bindtap="gotoInfo">
+	<view class="cell" wx:for="{{list}}" data-id="{{item.id}}" wx:key="index" bindtap="gotoInfo">
 		<view class="first word-line">{{item.title}}</view>
 		<view class="second flex">
 			<view class="flex left">
@@ -49,12 +49,12 @@
 			</view>
 			<view class="flex right">
 				<image class="view" src="../../image/index/view.png"></image>
-				<view>100</view>
+				<view>{{item.view}}</view>
 			</view>
 		</view>
 		<view class="third flex">
-			<view class="pic" wx:for="{{item.images}}" wx:key="index" style=" background-image: url({{item}});">
-				<view class="num flex align-center justify-center" wx:if="{{index==2}}">99</view>
+			<view class="pic" wx:for="{{item.images}}"  wx:for-item="innerItem" wx:key="index" style=" background-image: url({{innerItem}});background-size:100% 100%;">
+				<view class="num flex align-center justify-center" wx:if="{{index==2}}">{{item.imageNum}}</view>
 			</view>
 		</view>
 

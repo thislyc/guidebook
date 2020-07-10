@@ -1,11 +1,24 @@
 // pages/info/info.js
+let app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    StatusBar: app.globalData.StatusBar,
+    CustomBar: app.globalData.CustomBar,
+    Custom: app.globalData.Custom,
+    scrollTop: null,
+    swiperList: ["http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
+    "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
+    "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg"
+  ]
+  },
 
+  //滚动条监听
+  scroll: function (e) {
+    this.setData({ scrollTop: e.detail.scrollTop })
   },
 
   /**
