@@ -1,0 +1,10 @@
+<!--pages/info/info.wxml-->
+<custom transparent="{{true}}" top="{{scrollTop}}" isBack="{{true}}">
+			<block slot="right">
+				<navigator class="action roundIcon" url="/pages/notice/notice" hover-class="none">
+					<view class="icon-notice">
+						<view class="cu-tag badge round"></view>
+					</view>
+				</navigator>
+			</block>
+		</custom>

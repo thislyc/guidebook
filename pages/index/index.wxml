@@ -36,7 +36,7 @@
 </view>
 
 <view class="list">
-	<view class="cell" wx:for="{{list}}">
+	<view class="cell" wx:for="{{list}}" data-id="{{item.id}}" bindtap="gotoInfo">
 		<view class="first word-line">{{item.title}}</view>
 		<view class="second flex">
 			<view class="flex left">

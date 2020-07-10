@@ -156,7 +156,12 @@ Page({
     wx.navigateTo({
       url: '../startlocation/startlocation',
     })
-  }
+  },
 
+  gotoInfo(e){
+    wx.navigateTo({
+      url: '../info/info?id='+e.currentTarget.dataset.id,
+    })
+  }
 
 })
