@@ -139,14 +139,16 @@ page {
 }
 
 .tip {
+  padding-top: 10rpx;
   margin-top: -20rpx;
-  border-radius: 32rpx;
-  line-height: 32rpx;
-  padding-bottom: 20rpx;
+  border-radius: 32rpx 32rpx 0rpx 0rpx;
+  line-height: 26rpx;
+  padding-bottom: 30rpx;
   background-color: #FFEB8C;
-  text-align: center;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: rgba(41, 41, 48, 1);
-  font-size: 24rpx;
+  font-size: 26rpx;
   font-family: PingFangSC-regular;
 }

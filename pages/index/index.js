@@ -51,46 +51,60 @@ Page({
     TabCur: 0,
     startDefault: 0, //出发地
     object: '', //目的地
-    pageNum: 0,
+    pageNum: 1,
     pageSize: 10,
     isTip: true
   },
   onLoad: function () {
+    app.globalData.startLocation = this.data.info.startLocation
     let info = wx.getStorageSync('info') || null
     let list = wx.getStorageSync('list') || null
-    if (info && list) {
+    let startDefault = wx.getStorageSync('startDefault')
+    console.log(startDefault)
+    console.log(startDefault != '')
+    if (info != null && list != null) {
       this.setData({
         info: info,
-        list: list
+        list: list,
+        startDefault: startDefault,
       })
       app.globalData.startLocation = this.data.info.startLocation
+      app.globalData.startDefault = startDefault
+      console.log("读缓存")
     } else {
       this.getInfo()
     }
   },
   onShow: function () {
-    this.setData({
-      startDefault: app.globalData.startDefault
-    })
+    if (this.data.startDefault != app.globalData.startDefault) {
+      this.setData({
+        startDefault: app.globalData.startDefault
+      })
+      this.rest()
+      this.getInfo()
+    }
+
   },
 
   onPullDownRefresh: function () {
-    this.restTap()
+    this.rest()
     wx.showLoading({
       title: '加载中'
     })
     this.getInfo()
-
-
   },
 
   getInfo() {
+    let data = {
+      page: this.data.pageNum,
+      page_size: this.data.pageSize,
+    }
+    if (this.data.info.startLocation.length > 0) {
+      data["departure_id"] = this.data.info.startLocation[this.data.startDefault].id
+    }
     wx.request({
       url: app.globalData.apiUrl + '/api/v1/trips.json',
-      data: {
-        page: this.data.pageNum,
-        page_size: this.data.pageSize
-      },
+      data: data,
       method: "POST",
       header: {
         'content-type': 'application/json' // 默认值
@@ -103,8 +117,10 @@ Page({
           list: result.data.list,
           isTip: false
         })
+        console.log("存缓存")
         wx.setStorageSync('info', result.data.info)
         wx.setStorageSync('list', result.data.list)
+        wx.setStorageSync('startDefault', this.data.startDefault)
         app.globalData.startLocation = this.data.info.startLocation
       },
       fail: (res) => {},
@@ -114,11 +130,11 @@ Page({
 
   getSearch() {
     this.setData({
-      pageNum: 0,
+      pageNum: 1,
       pageSize: 10
     })
     let data = {
-      departure_id: this.data.info.startLocation[this.data.startDefault],
+      departure_id: this.data.info.startLocation[this.data.startDefault].id,
       place_keyword: this.data.object,
       only_trip: true,
       page: this.data.pageNum,
@@ -138,6 +154,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: (result) => {
+        console.log("search")
         this.setData({
           list: result.data.list
         })
@@ -178,6 +195,17 @@ Page({
     this.getSearch()
   },
 
+  rest() {
+    let info = this.data.info
+    info.fenlei.forEach(e => {
+      e.chirdTabCur = 0
+    })
+    this.setData({
+      object: '',
+      info: info
+    })
+  },
+
   addList() {
     if (this.data.list.length % 10 != 0) {
       return;
@@ -186,7 +214,7 @@ Page({
       pageNum: this.data.pageNum + 1
     })
     let data = {
-      departure_id: this.data.info.startLocation[this.data.startDefault],
+      departure_id: this.data.info.startLocation[this.data.startDefault].id,
       place_keyword: this.data.object,
       only_trip: true,
       page: this.data.pageNum,
@@ -200,8 +228,12 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: res => {
+        let list = this.data.list
         res.data.list.forEach(e => {
-          this.data.list.push(e)
+          list.push(e)
+        })
+        this.setData({
+          list: list
         })
       }
     });
@@ -231,6 +263,9 @@ Page({
   },
 
   onReachBottom: function () {
+    if (this.data.isTip) {
+      return;
+    }
     this.addList()
   },
 
