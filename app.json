@@ -10,7 +10,8 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "盖的路书",
     "navigationBarTextStyle": "black",
-    "navigationStyle": "custom"
+    "navigationStyle": "custom",
+    "enablePullDownRefresh":true
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",

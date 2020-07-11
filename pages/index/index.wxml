@@ -35,6 +35,8 @@
 	</scroll-view>
 </view>
 
+<view class="tip" wx:if="{{isTip}}">下拉刷新获取最新路书</view>
+
 <view class="list">
 	<view class="cell" wx:for="{{list}}" data-id="{{item.id}}" wx:key="index" bindtap="gotoInfo">
 		<view class="first word-line">{{item.title}}</view>

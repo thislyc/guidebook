@@ -51,9 +51,22 @@ Page({
     TabCur: 0,
     startDefault: 0, //出发地
     object: '', //目的地
+    pageNum: 0,
+    pageSize: 10,
+    isTip: true
   },
   onLoad: function () {
-    this.getInfo()
+    let info = wx.getStorageSync('info') || null
+    let list = wx.getStorageSync('list') || null
+    if (info && list) {
+      this.setData({
+        info: info,
+        list: list
+      })
+      app.globalData.startLocation = this.data.info.startLocation
+    } else {
+      this.getInfo()
+    }
   },
   onShow: function () {
     this.setData({
@@ -61,22 +74,73 @@ Page({
     })
   },
 
+  onPullDownRefresh: function () {
+    this.restTap()
+    wx.showLoading({
+      title: '加载中'
+    })
+    this.getInfo()
+
+
+  },
+
   getInfo() {
     wx.request({
       url: app.globalData.apiUrl + '/api/v1/trips.json',
       data: {
-
+        page: this.data.pageNum,
+        page_size: this.data.pageSize
       },
+      method: "POST",
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: (result) => {
-        console.log(result.data)
+        wx.hideLoading()
+        wx.stopPullDownRefresh()
         this.setData({
           info: result.data.info,
+          list: result.data.list,
+          isTip: false
+        })
+        wx.setStorageSync('info', result.data.info)
+        wx.setStorageSync('list', result.data.list)
+        app.globalData.startLocation = this.data.info.startLocation
+      },
+      fail: (res) => {},
+      complete: (res) => {},
+    })
+  },
+
+  getSearch() {
+    this.setData({
+      pageNum: 0,
+      pageSize: 10
+    })
+    let data = {
+      departure_id: this.data.info.startLocation[this.data.startDefault],
+      place_keyword: this.data.object,
+      only_trip: true,
+      page: this.data.pageNum,
+      page_size: this.data.pageSize
+    }
+    this.data.info.fenlei.forEach(e => {
+      if (e.chird[e.chirdTabCur].id) {
+        data[e.key] = e.chird[e.chirdTabCur].id
+      }
+    })
+
+    wx.request({
+      url: app.globalData.apiUrl + '/api/v1/trips.json',
+      data: data,
+      method: "POST",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (result) => {
+        this.setData({
           list: result.data.list
         })
-        app.globalData.startLocation = this.data.info.startLocation
       },
       fail: (res) => {},
       complete: (res) => {},
@@ -90,17 +154,16 @@ Page({
 
   },
   tabSelect2(e) {
-    console.log(e.currentTarget.dataset.id)
     let info = this.data.info
     info.fenlei[this.data.TabCur].chirdTabCur = e.currentTarget.dataset.index
     this.setData({
       info: info
     })
+    this.getSearch()
   },
 
   search() {
-    console.log("搜索")
-    console.log(this.data.object)
+    this.getSearch()
   },
 
   restTap() {
@@ -109,8 +172,39 @@ Page({
       e.chirdTabCur = 0
     })
     this.setData({
+      object: '',
       info: info
     })
+    this.getSearch()
+  },
+
+  addList() {
+    if (this.data.list.length % 10 != 0) {
+      return;
+    }
+    this.setData({
+      pageNum: this.data.pageNum + 1
+    })
+    let data = {
+      departure_id: this.data.info.startLocation[this.data.startDefault],
+      place_keyword: this.data.object,
+      only_trip: true,
+      page: this.data.pageNum,
+      page_size: this.data.pageSize
+    }
+    wx.request({
+      url: app.globalData.apiUrl + '/api/v1/trips.json',
+      method: 'post',
+      data: data,
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: res => {
+        res.data.list.forEach(e => {
+          this.data.list.push(e)
+        })
+      }
+    });
   },
 
   scan() {
@@ -135,6 +229,11 @@ Page({
       },
     })
   },
+
+  onReachBottom: function () {
+    this.addList()
+  },
+
 
   locationTap() {
     wx.navigateTo({

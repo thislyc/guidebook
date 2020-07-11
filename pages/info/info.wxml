@@ -5,17 +5,17 @@
 		</cu-custom>
 
 		<swiper class="screen-swiper round-dot" style="height:750rpx;" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
-			<swiper-item wx:for="{{swiperList}}" wx:key="index">
+			<swiper-item wx:for="{{info.pictures}}" wx:key="index">
 				<image style="height:750rpx;" src="{{item}}" mode="aspectFill"></image>
 			</swiper-item>
 		</swiper>
 
-    <view class="num flex align-center justify-center">99</view>
+		<view class="num flex align-center justify-center">{{info.pictures_count}}</view>
 
 		<view class="info">
 			<view class="flex align-center justify-between">
-				<view class="info-left word-line">
-					稻城亚丁色达7天6晚
+				<view class="info-left">
+					{{info.title}}
 				</view>
 				<view class="info-right">
 					<view class="cu-btn round line-yellow button-hover down">离线</view>
@@ -24,50 +24,57 @@
 			</view>
 
 			<view class="flex align-center justify-between second">
-				<view class="second-left flex align-center flex-wrap">
-					<view class="padding-right-sm">
-						<view class="cu-tag bg-yellow label">测试</view>
-					</view>
-					<view class="padding-right-sm">
-						<view class="cu-tag bg-yellow label">测试</view>
-					</view>
-					<view class="padding-right-sm">
-						<view class="cu-tag bg-yellow label">测试</view>
-					</view>
-					<view class="padding-right-sm">
-						<view class="cu-tag bg-yellow label">测试</view>
+				<view class="second-left flex align-center">
+					<view class="padding-right-sm" wx:for="{{info.themes}}" wx:key="index">
+						<view class="cu-tag bg-yellow label">{{item}}</view>
 					</view>
 
 				</view>
 				<view class="second-right">
 					<image class="view" src="../../image/index/view.png"></image>
-					<view>122</view>
+					<view>{{info.visits_count}}</view>
 				</view>
 
 			</view>
 			<view class="flex margin-bottom-sm">
-				<view class="flex-sub margin-right-xs radius info-center word-line">
+				<view class="margin-right-xs radius info-center">
 					<image class="info-icon" src="/image/info/day.png"></image>
-					<view>行程天数: 5天</view>
+					<view>行程天数: </view>
+					<view>{{info.days}}天</view>
 				</view>
-				<view class="flex-sub radius info-center word-line">
+				<view class="radius info-center">
 					<image class="info-icon" src="/image/info/km.png"></image>
-					<view>行驶里程: 2139公里</view>
+					<view>行驶里程: </view>
+					<view>{{info.distance}}</view>
 				</view>
 			</view>
-			<view class="flex">
-				<view class="flex-sub margin-right-xs radius info-center word-line">
+			<view class="flex self-start">
+				<view class="margin-right-xs radius info-center">
 					<image class="info-icon" src="/image/info/object.png"></image>
-					<view>目的地: 稻城县等</view>
+					<view>目的地: </view>
+					<view>{{info.destinations}}</view>
 				</view>
-				<view class="flex-sub radius info-center word-line">
+				<view class="radius info-center">
 					<image class="info-icon" src="/image/info/price.png"></image>
-					<view>参考费用: 2199/人</view>
+					<view>参考费用: </view>
+					<view>{{info.unit_price}}</view>
 				</view>
 			</view>
 		</view>
 
-    
+		<view class="foot">
+			<scroll-view scroll-x class="bg-white nav text-center">
+				<view class="cu-item {{index==TabCur?'text-yellow cur':''}}" wx:for="{{tabList}}" wx:key bindtap="tabSelect" data-id="{{index}}">
+					{{item}}
+				</view>
+			</scroll-view>
+
+			<view class="routes" wx:if="{{TabCur==0}}">1</view>
+		<view class="introduce" wx:if="{{TabCur==1}}">2</view>
+		<view class="budget" wx:if="{{TabCur==2}}">3</view>
+		</view>
+
+
 
 	</scroll-view>
 </view>

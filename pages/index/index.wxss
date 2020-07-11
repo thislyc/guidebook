@@ -137,3 +137,16 @@
 page {
   background-color: #F3F3F3;
 }
+
+.tip {
+  margin-top: -20rpx;
+  border-radius: 32rpx;
+  line-height: 32rpx;
+  padding-bottom: 20rpx;
+  background-color: #FFEB8C;
+  text-align: center;
+
+  color: rgba(41, 41, 48, 1);
+  font-size: 24rpx;
+  font-family: PingFangSC-regular;
+}

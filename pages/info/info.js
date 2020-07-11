@@ -6,34 +6,53 @@ Page({
    * 页面的初始数据
    */
   data: {
+    tabList:['行程','介绍','预算'],
+    TabCur: 0,
+    scrollLeft:0,
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     Custom: app.globalData.Custom,
     scrollTop: null,
-    swiperList: ["http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
-    "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
-    "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg"
-  ]
+    // swiperList: ["http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
+    //   "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg",
+    //   "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg"
+    // ],
+    id: null,
+    info:{
+      title:'',
+      days:0,
+      visits_count:0,
+      distance:'',
+      unit_price:0,
+      themes:[],
+      pictures_count:0,
+      pictures:[]
+    }
   },
 
   //滚动条监听
   scroll: function (e) {
-    this.setData({ scrollTop: e.detail.scrollTop })
+    this.setData({
+      scrollTop: e.detail.scrollTop
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    if (options.id) {
+      this.setData({
+        id: options.id
+      })
+      this.getData()
+    } else {
+      wx.navigateBack({
+        delta: 0,
+      })
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
 
   /**
    * 生命周期函数--监听页面显示
@@ -42,32 +61,31 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
+  tabSelect(e) {
+    this.setData({
+      TabCur: e.currentTarget.dataset.id,
+      scrollLeft: (e.currentTarget.dataset.id-1)*60
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
 
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
+  getData() {
+    wx.request({
+      url: app.globalData.apiUrl + '/api/v1/trips/'+this.data.id+'.json',
+      data: {
+      },
+      method: "POST",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        this.setData({
+          info:res.data.trip
+        })
+      },
+      fail: (res) => {},
+      complete: (res) => {},
+    })
   },
 
   /**

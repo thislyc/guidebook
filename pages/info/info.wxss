@@ -1,7 +1,6 @@
 /* pages/info/info.wxss */
 .info {
   background-color: #fff;
-  height: 300rpx;
   line-height: 40rpx;
   border-radius: 0rpx 0rpx 32rpx 32rpx;
   text-align: center;
@@ -11,7 +10,6 @@
 }
 
 .info-left {
-  height: 44rpx;
   color: rgba(41, 41, 48, 1);
   font-size: 32rpx;
   text-align: left;
@@ -34,6 +32,19 @@
   margin-right: 8rpx;
 }
 
+.foot {
+  background-color: #fff;
+  margin: 16rpx auto 0rpx auto;
+  line-height: 40rpx;
+  border-radius: 32rpx 32rpx 0rpx 0rpx;
+  color: rgba(16, 16, 16, 1);
+  font-size: 28rpx;
+  text-align: center;
+  font-family: Arial;
+  border: 2rpx solid rgba(255, 255, 255, 0);
+  padding: 32rpx
+}
+
 .second-right {
   height: 28rpx;
   color: rgba(120, 120, 130, 1);
@@ -50,8 +61,8 @@
 }
 
 .label {
+  padding: 0 8rpx;
   margin-bottom: 10rpx;
-  width: 64rpx;
   height: 38rpx;
   border-radius: 4rpx;
   background-color: rgba(253, 214, 25, 1);
@@ -68,7 +79,8 @@
 }
 
 .info-center {
-  height: 36rpx;
+  flex-wrap: wrap;
+  width: 50%;
   color: rgba(41, 41, 48, 1);
   font-size: 24rpx;
   text-align: left;
@@ -76,6 +88,9 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 .down {
