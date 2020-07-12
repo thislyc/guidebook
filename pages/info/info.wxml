@@ -1,109 +1,171 @@
 <!--pages/scroll/scroll.wxml-->
-<view style="height:100%;position:fixed;width:100%;background-color:#F3F3F3;">
-	<scroll-view scroll-y="false" bindscroll="scroll" style="height:100%;">
-		<cu-custom isBack="{{true}}" bgColor="bg-oem-yellow" opacity="{{scrollTop / 200 > 1 ? 1 : scrollTop / 200}}">
-		</cu-custom>
+<view style="height:100%;width:100%;background-color:#F3F3F3;">
+	<cu-custom isBack="{{false}}" isCustom="{{true}}" bgColor="bg-oem-yellow" opacity="{{scrollTop / 200 > 1 ? 1 : scrollTop / 200}}">
+	</cu-custom>
 
-		<swiper class="screen-swiper round-dot" style="height:750rpx;" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
-			<swiper-item wx:for="{{info.pictures}}" wx:key="index">
-				<image style="height:750rpx;" src="{{item}}" mode="aspectFill"></image>
-			</swiper-item>
-		</swiper>
+	<swiper class="screen-swiper round-dot" style="height:750rpx;" indicator-dots="true" circular="true" autoplay="true" interval="5000" duration="500">
+		<swiper-item wx:for="{{info.pictures}}" wx:key="index">
+			<image style="height:750rpx;" src="{{item}}" mode="aspectFill"></image>
+		</swiper-item>
+	</swiper>
 
-		<view class="num flex align-center justify-center">{{info.pictures_count}}</view>
+	<view class="num flex align-center justify-center">{{info.pictures_count}}</view>
 
-		<view class="info">
-			<view class="flex align-center justify-between">
-				<view class="info-left">
-					{{info.title}}
-				</view>
-				<view class="info-right">
-					<view class="cu-btn round line-yellow button-hover down">离线</view>
+	<view class="info">
+		<view class="flex align-center justify-between">
+			<view class="info-left">
+				{{info.title}}
+			</view>
+			<view class="info-right">
+				<view class="cu-btn round line-yellow button-hover down" bindtap="lixianTap">离线</view>
+				<button class="cu-btn icon button-hover bg-white" open-type="share">
 					<image class="share" src="/image/info/share.png"></image>
-				</view>
-			</view>
-
-			<view class="flex align-center justify-between second">
-				<view class="second-left flex align-center">
-					<view class="padding-right-sm" wx:for="{{info.themes}}" wx:key="index">
-						<view class="cu-tag bg-yellow label">{{item}}</view>
-					</view>
-
-				</view>
-				<view class="second-right">
-					<image class="view" src="../../image/index/view.png"></image>
-					<view>{{info.visits_count}}</view>
-				</view>
-
-			</view>
-			<view class="flex margin-bottom-sm">
-				<view class="margin-right-xs radius info-center">
-					<image class="info-icon" src="/image/info/day.png"></image>
-					<view>行程天数: </view>
-					<view>{{info.days}}天</view>
-				</view>
-				<view class="radius info-center">
-					<image class="info-icon" src="/image/info/km.png"></image>
-					<view>行驶里程: </view>
-					<view>{{info.distance}}</view>
-				</view>
-			</view>
-			<view class="flex self-start">
-				<view class="margin-right-xs radius info-center">
-					<image class="info-icon" src="/image/info/object.png"></image>
-					<view>目的地: </view>
-					<view>{{info.destinations}}</view>
-				</view>
-				<view class="radius info-center">
-					<image class="info-icon" src="/image/info/price.png"></image>
-					<view>参考费用: </view>
-					<view>{{info.unit_price}}</view>
-				</view>
+				</button>
 			</view>
 		</view>
 
-		<view class="foot">
-			<scroll-view scroll-x id="mySelect" class="bg-white nav text-center  margin-bottom">
-				<view class="cu-item {{index==TabCur?'text-yellow cur':''}}" wx:for="{{tabList}}" wx:key="index" bindtap="tabSelect" data-id="{{index}}">
-					{{item}}
+		<view class="flex align-center justify-between second">
+			<view class="second-left flex align-center">
+				<view class="padding-right-sm" wx:for="{{info.themes}}" wx:key="index">
+					<view class="cu-tag bg-yellow label">{{item}}</view>
 				</view>
-			</scroll-view>
-
-			<scroll-view scroll-x class="bg-white nav text-center fixed" wx:if="{{fixed2}}" style="top:{{CustomBar}}px;width: calc(100% - 64rpx);">
-				<view class="cu-item {{index==TabCur?'text-yellow cur':''}}" wx:for="{{tabList}}" wx:key="index" bindtap="tabSelect" data-id="{{index}}">
-					{{item}}
-				</view>
-			</scroll-view>
-
-			<view class="routes" wx:if="{{TabCur==0}}">
-				<map id="myMap" class="margin-bottom" markers="{{markers}}" polyline="{{polyline}}" scale="7" show-location bindmarkertap="selectMarket" include-points="{{markers}}"></map>
-				<view class="myDays" wx:for="{{info.routes}}" wx:key="index">
-					<view id="myDay{{index}}" class="dayLine flex align-center justify-between nav" bindtap="detailTap" data-arr="routes" data-index="{{index}}">
-						<view>第{{item.day}}天</view>
-						<text class="cuIcon-unfold lg text-white" wx:if="{{!item.isDetail}}"></text>
-						<text class="cuIcon-fold lg text-white" wx:if="{{item.isDetail}}"></text>
-
-					</view>
-					<view class="dayLine flex align-center justify-between nav fixed" wx:if="{{item.fixed}}" style="top:{{CustomBar+mySelect.height}}px;width: calc(100% - 64rpx);">
-						<view>第{{item.day}}天</view>
-						<view></view>
-					</view>
-					<view class="detail" wx:if="{{item.isDetail}}">
-						<view style="width:100%;height:800rpx;"></view>
-						asds
-					</view>
-				</view>
-
-				<view style="width:100%;height:8000rpx;"></view>
-			</view>
-			<view class="introduce" wx:if="{{TabCur==1}}">
-				<view style="width:100%;height:8000rpx;"></view>
 
 			</view>
-			<view class="budget" wx:if="{{TabCur==2}}">3</view>
+			<view class="second-right">
+				<image class="view" src="../../image/index/view.png"></image>
+				<view>{{info.visits_count}}</view>
+			</view>
+
+		</view>
+		<view class="flex margin-bottom-sm">
+			<view class="margin-right-xs radius info-center">
+				<image class="info-icon" src="/image/info/day.png"></image>
+				<view>行程天数: </view>
+				<view>{{info.days}}天</view>
+			</view>
+			<view class="radius info-center">
+				<image class="info-icon" src="/image/info/km.png"></image>
+				<view>行驶里程: </view>
+				<view>{{info.distance}}</view>
+			</view>
+		</view>
+		<view class="flex self-start">
+			<view class="margin-right-xs radius info-center">
+				<image class="info-icon" src="/image/info/object.png"></image>
+				<view>目的地: </view>
+				<view>{{info.destinations}}</view>
+			</view>
+			<view class="radius info-center">
+				<image class="info-icon" src="/image/info/price.png"></image>
+				<view>参考费用: </view>
+				<view>{{info.unit_price}}</view>
+			</view>
+		</view>
+	</view>
+
+	<view class="foot">
+		<scroll-view scroll-x id="mySelect" class="bg-white nav text-center  margin-bottom">
+			<view class="cu-item {{index==TabCur?'text-yellow cur':''}}" wx:for="{{tabList}}" wx:key="index" bindtap="tabSelect" data-id="{{index}}">
+				{{item}}
+			</view>
+		</scroll-view>
+
+		<scroll-view scroll-x class="bg-white nav text-center fixed" wx:if="{{fixed2}}" style="top:{{CustomBar}}px;width: calc(100% - 64rpx);">
+			<view class="cu-item {{index==TabCur?'text-yellow cur':''}}" wx:for="{{tabList}}" wx:key="index" bindtap="tabSelect" data-id="{{index}}">
+				{{item}}
+			</view>
+		</scroll-view>
+
+		<!-- 行程 -->
+		<view class="routes" wx:if="{{TabCur==0}}">
+			<map id="myMap" class="margin-bottom" markers="{{markers}}" polyline="{{polyline}}" scale="7" show-location bindmarkertap="selectMarket" include-points="{{markers}}"></map>
+			<view class="myDays" wx:for="{{info.routes}}" wx:key="index">
+				<view id="myDay{{index}}" class="dayLine flex align-center justify-between nav" bindtap="detailTap" data-arr="routes" data-index="{{index}}" style="position: sticky;top:{{CustomBar+mySelect.height}}px;">
+					<view>第{{item.day}}天</view>
+					<text class="cuIcon-unfold lg text-white" wx:if="{{item.isDetail}}"></text>
+					<text class="cuIcon-fold lg text-white" wx:if="{{!item.isDetail}}"></text>
+				</view>
+
+				<view class="detail" wx:if="{{!item.isDetail}}">
+					<view class="flex align-center justify-between" style="margin-top:24rpx;">
+						<view class="first-left">{{item.departure}}-{{item.arrival}}</view>
+						<view class="first-right">里程:{{item.distance}} 行驶:{{item.duration}}</view>
+					</view>
+					<view class="cu-timeline" wx:for="{{item.waypoints}}" wx:key="index" wx:for-item="innerItem">
+						<view class="cu-time">{{innerItem.time}}</view>
+						<view class="cu-item">
+							<view class="padding-xs bg-white">
+								<view class="flex align-center justify-between">
+									<view class="inner-name">{{innerItem.name}}</view>
+									<view class="cu-btn round bg-grey button-hover bt" data-item="{{innerItem}}" bindtap="openLocation">去这里</view>
+								</view>
+								<view class="flex align-center justify-start">
+									<view class="fujin" wx:if="{{innerItem.nearby.length>0}}" data-item="{{innerItem}}" bindtap="fujinTap">附近景点 ></view>
+								</view>
+								<view class="flex align-center justify-start">
+									<view class="des">里程:{{innerItem.distance}} 行驶:{{innerItem.duration}}</view>
+								</view>
+
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+
+			<!-- 附近景点弹窗 -->
+			<view class="cu-modal bottom-modal typeBox {{modalName=='typeModal'?'show':''}}">
+				<view class='cu-dialog padding'>
+					<view class='modal-close' bindtap='hideModal'>
+						<text class='cuIcon-close lg'></text>
+					</view>
+					<view class="cu-title word-line">{{activeFujin.title}}—附近{{activeFujin.nearby.length}}个景点</view>
+					<view class="cell flex align-center justify-between" wx:for="{{activeFujin.nearby}}" wx:key="index">
+						<image class="cell-img" src="{{item.pictures[0]}}"></image>
+						<view class="cell-right">
+							<view class="cell-name">{{item.name}}</view>
+							<view class="cell-second word-line">{{item.description}}</view>
+							<view class="flex align-center justify-between cell-second">
+								<view>{{item.destiantion}}</view>
+								<view data-item="{{item}}" bindtap="openLocation">去这里 ></view>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+
 		</view>
 
+		<!-- 介绍 -->
+		<view class="introduce" wx:if="{{TabCur==1}}">
+			<view class="int-title">行程概述</view>
+			<view class="int-desc">{{info.introduce.description}}</view>
+			<view class="extras" wx:for="{{info.introduce.extras}}" wx:key="index">
+				<view class="int-title">{{item.title}}</view>
+				<view class="int-desc">{{item.content}}</view>
+			</view>
+
+			<view class="int-title">日程安排</view>
+				<view class="myDays" wx:for="{{info.introduce.daily}}" wx:key="index">
+				<view id="myDay{{index}}" class="dayLine flex align-center justify-between nav" bindtap="detailTap" data-arr="introduce" data-index="{{index}}" style="position: sticky;top:{{CustomBar+mySelect.height}}px;">
+					<view>第{{item.day}}天</view>
+					<text class="cuIcon-unfold lg text-white" wx:if="{{item.isDetail}}"></text>
+					<text class="cuIcon-fold lg text-white" wx:if="{{!item.isDetail}}"></text>
+				</view>
+
+				<view class="detail" wx:if="{{!item.isDetail}}">
+					<view class="flex align-center justify-between" style="margin-top:24rpx;">
+						<view class="first-left">{{item.departure}}-{{item.arrival}}</view>
+						<view class="first-right">里程:{{item.distance}} 行驶:{{item.duration}}</view>
+					</view>
+				</view>
+			</view>
+
+		</view>
+
+		<!-- 预算 -->
+		<view class="budget" wx:if="{{TabCur==2}}">3</view>
+	</view>
 
 
-	</scroll-view>
+
 </view>

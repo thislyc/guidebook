@@ -201,6 +201,7 @@ Page({
       e.chirdTabCur = 0
     })
     this.setData({
+      pageNum:1,
       object: '',
       info: info
     })

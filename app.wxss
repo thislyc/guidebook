@@ -1,6 +1,10 @@
 @import "colorui/main.wxss";
 @import "colorui/icon.wxss";
 
+page{
+  font-family: PingFangSC-regular;
+}
+
 .scrollPage {
   height: 100vh;
 }

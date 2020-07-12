@@ -18,6 +18,7 @@ Page({
     //   "http://lxzcdn.itzjj.cn/uploads/userfiles/182/images/pageimg/20200424/182-2004241924254-2.jpg"
     // ],
     id: null,
+    modalName: null,
     info: {
       title: '',
       days: 0,
@@ -31,20 +32,20 @@ Page({
       introduce: {},
       budget: {}
     },
+    activeFujin: {},
     markers: [],
     polyline: [],
     fixed: false,
     fixed2: false,
-    myDay: 0,
     mySelect: {}
   },
 
   //滚动条监听
-  scroll: function (e) {
+  onPageScroll: function (e) {
     this.setData({
-      scrollTop: e.detail.scrollTop
+      scrollTop: e.scrollTop
     })
-    if (e.detail.scrollTop > this.data.mySelect.top - this.data.CustomBar) {
+    if (e.scrollTop > this.data.mySelect.top - this.data.CustomBar) {
       if (!this.data.fixed2)
         this.setData({
           fixed2: true
@@ -55,64 +56,8 @@ Page({
           fixed2: false
         })
     }
-
-    if (e.detail.scrollTop > this.data.myDay - this.data.CustomBar) {
-
-      //创建节点选择器
-      let query = wx.createSelectorQuery();
-      //选择id
-      let that = this;
-      for (let i = 0; i < that.data.info.routes.length; i++) {
-        query.select('#myDay' + i).boundingClientRect(function (rect) {
-          if (e.detail.scrollTop > rect.bottom - that.data.CustomBar) {
-            if (!that.data.info.routes[i].fixed) {
-              let info = that.data.info
-              info.routes[i].fixed = true
-              that.setData({
-                info: info
-              })
-            }
-          } else {
-            if (that.data.info.routes[i].fixed) {
-              let info = that.data.info
-              info.routes[i].fixed = false
-              that.setData({
-                info: info
-              })
-            }
-          }
-        }).exec();
-      }
-
-    } else {
-      //创建节点选择器
-      let query = wx.createSelectorQuery();
-      //选择id
-      let that = this;
-      for (let i = 0; i < that.data.info.routes.length; i++) {
-        query.select('#myDay' + i).boundingClientRect(function (rect) {
-          console.log(rect.bottom)
-          if (e.detail.scrollTop > rect.bottom - that.data.CustomBar) {
-            if (!that.data.info.routes[i].fixed) {
-              let info = that.data.info
-              info.routes[i].fixed = true
-              that.setData({
-                info: info
-              })
-            }
-          } else {
-            if (that.data.info.routes[i].fixed) {
-              let info = that.data.info
-              info.routes[i].fixed = false
-              that.setData({
-                info: info
-              })
-            }
-          }
-        }).exec();
-      }
-    }
   },
+
 
   /**
    * 生命周期函数--监听页面加载
@@ -138,20 +83,11 @@ Page({
     var query = wx.createSelectorQuery();
     //选择id
     var that = this;
-    query.select('#myDay0').boundingClientRect()
-    query.selectViewport().scrollOffset()
-    query.exec(function (res) {
-      that.setData({
-        myDay: res[1].scrollHeight
-      })
-      console.log(res)
-    })
 
     query.select('#mySelect').boundingClientRect(function (rect) {
       that.setData({
         mySelect: rect
       })
-      console.log(rect)
     }).exec();
   },
 
@@ -249,16 +185,56 @@ Page({
     let info = this.data.info
     if (data.arr == 'routes') {
       info.routes[data.index].isDetail = !info.routes[data.index].isDetail
+    } else if (data.arr == 'introduce') {
+      info.introduce.daily[data.index].isDetail = !info.introduce.daily[data.index].isDetail
     }
     this.setData({
       info: info
     })
   },
 
+  //点击去这里
+  openLocation(e) {
+    let item = e.currentTarget.dataset.item
+    wx.openLocation({
+      latitude: Number(item.latitude),
+      longitude: Number(item.longitude),
+      name: item.name,
+    })
+  },
+
+  //点击附近
+  fujinTap(e) {
+    let item = e.currentTarget.dataset.item
+    this.setData({
+      activeFujin: {
+        title: item.name,
+        nearby: item.nearby
+      },
+      modalName: 'typeModal'
+    })
+  },
+
+  //关闭弹窗
+  hideModal() {
+    this.setData({
+      modalName: null
+    })
+  },
+
+  //点击离线
+  lixianTap() {
+
+  },
+
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    return {
+      title: this.data.info.title,
+      path: '/pages/info/info?id=' + this.data.id,
+      imageUrl: this.data.info.pictures[0]
+    }
   }
 })
