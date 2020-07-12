@@ -17,7 +17,9 @@
 				{{info.title}}
 			</view>
 			<view class="info-right">
-				<view class="cu-btn round line-yellow button-hover down" bindtap="lixianTap">离线</view>
+				<view class="cu-btn round line-yellow button-hover down" wx:if="{{!isLixian}}" bindtap="lixianTap">离线</view>
+				<view class="cu-btn round line-yellow button-hover down" wx:if="{{isLixian}}">已离线</view>
+
 				<button class="cu-btn icon button-hover bg-white" open-type="share">
 					<image class="share" src="/image/info/share.png"></image>
 				</button>
@@ -114,7 +116,7 @@
 
 			<!-- 附近景点弹窗 -->
 			<view class="cu-modal bottom-modal typeBox {{modalName=='typeModal'?'show':''}}">
-				<view class='cu-dialog padding'>
+				<view class='cu-dialog padding' style="overflow-y:scroll;overflow-x:hidden;">
 					<view class='modal-close' bindtap='hideModal'>
 						<text class='cuIcon-close lg'></text>
 					</view>
@@ -145,17 +147,32 @@
 			</view>
 
 			<view class="int-title">日程安排</view>
-				<view class="myDays" wx:for="{{info.introduce.daily}}" wx:key="index">
-				<view id="myDay{{index}}" class="dayLine flex align-center justify-between nav" bindtap="detailTap" data-arr="introduce" data-index="{{index}}" style="position: sticky;top:{{CustomBar+mySelect.height}}px;">
+			<view class="myDays" wx:for="{{info.introduce.daily}}" wx:key="index">
+				<view id="my{{index}}" class="dayLine flex align-center justify-between nav" bindtap="detailTap" data-arr="introduce" data-index="{{index}}" style="position: sticky;top:{{CustomBar+mySelect.height}}px;">
 					<view>第{{item.day}}天</view>
 					<text class="cuIcon-unfold lg text-white" wx:if="{{item.isDetail}}"></text>
 					<text class="cuIcon-fold lg text-white" wx:if="{{!item.isDetail}}"></text>
 				</view>
 
 				<view class="detail" wx:if="{{!item.isDetail}}">
-					<view class="flex align-center justify-between" style="margin-top:24rpx;">
-						<view class="first-left">{{item.departure}}-{{item.arrival}}</view>
-						<view class="first-right">里程:{{item.distance}} 行驶:{{item.duration}}</view>
+					<view wx:for="{{item.places}}" wx:key="index" wx:for-item="dayItem">
+						<view class="flex align-center place" wx:for="{{dayItem.extras}}" wx:key="index" wx:for-item="extrasItem">
+							<view class="place-fenlei">{{extrasItem.title}}</view>
+							<view class="place-name">{{extrasItem.content}}</view>
+						</view>
+
+						<view class="flex align-center place">
+							<view class="place-fenlei">{{dayItem.category}}</view>
+							<view class="place-name">{{dayItem.name}}</view>
+						</view>
+
+						<view class="third flex">
+							<view class="pic" wx:for="{{dayItem.pictures}}" wx:for-item="innerItem" data-url="{{innerItem}}" bindtap="showPic" wx:key="index" style=" background-image: url({{innerItem}});background-size:100% 100%;">
+							</view>
+						</view>
+
+						<view class="place-desc">{{dayItem.description}}</view>
+
 					</view>
 				</view>
 			</view>
@@ -163,7 +180,32 @@
 		</view>
 
 		<!-- 预算 -->
-		<view class="budget" wx:if="{{TabCur==2}}">3</view>
+		<view class="budget" wx:if="{{TabCur==2}}">
+			<view class="myDays" wx:for="{{info.budget.daily}}" wx:key="index">
+				<view id="mybud{{index}}" class="dayLine flex align-center justify-between nav" bindtap="detailTap" data-arr="budget" data-index="{{index}}" style="position: sticky;top:{{CustomBar+mySelect.height}}px;">
+					<view>第{{item.day}}天</view>
+					<view class="flex">
+						<view class="total_amount">￥{{item.total_amount}}</view>
+						<text class="cuIcon-unfold lg text-white" wx:if="{{item.isDetail}}"></text>
+						<text class="cuIcon-fold lg text-white" wx:if="{{!item.isDetail}}"></text>
+					</view>
+				</view>
+
+				<view class="detail" wx:if="{{!item.isDetail}}">
+					<view wx:for="{{item.details}}" wx:key="index" wx:for-item="dayItem">
+						<view class="flex align-center place justify-between padding-xs" wx:for="{{dayItem}}" wx:key="index" wx:for-item="detailsItem">
+							<view class="flex align-center">
+								<view class="place-fenlei">{{detailsItem.category}}</view>
+								<view class="place-name">{{detailsItem.full_name}}</view>
+							</view>
+							<view class="place-name">{{detailsItem.amount}}元</view>
+						</view>
+
+
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 
 

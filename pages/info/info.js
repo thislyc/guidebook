@@ -32,6 +32,7 @@ Page({
       introduce: {},
       budget: {}
     },
+    isLixian:false,
     activeFujin: {},
     markers: [],
     polyline: [],
@@ -187,6 +188,8 @@ Page({
       info.routes[data.index].isDetail = !info.routes[data.index].isDetail
     } else if (data.arr == 'introduce') {
       info.introduce.daily[data.index].isDetail = !info.introduce.daily[data.index].isDetail
+    } else if (data.arr == 'budget') {
+      info.budget.daily[data.index].isDetail = !info.budget.daily[data.index].isDetail
     }
     this.setData({
       info: info
@@ -224,7 +227,25 @@ Page({
 
   //点击离线
   lixianTap() {
+    wx.setStorageSync(this.data.id, this.data)
+    wx.showToast({
+      title: '缓存成功',
+      duration: 1000,
+      icon: "success",
+      mask: true,
+    })
+    this.setData({
+      isLixian:true
+    })
+  },
 
+  //点击显示图片
+  showPic(e) {
+    let url = e.currentTarget.dataset.url
+    wx.previewImage({
+      current: url,
+      urls: [url]
+    })
   },
 
   /**
