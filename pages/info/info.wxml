@@ -42,24 +42,24 @@
 		<view class="flex margin-bottom-sm">
 			<view class="margin-right-xs radius info-center">
 				<image class="info-icon" src="/image/info/day.png"></image>
-				<view>行程天数: </view>
+				<view>行程天数：</view>
 				<view>{{info.days}}天</view>
 			</view>
 			<view class="radius info-center">
 				<image class="info-icon" src="/image/info/km.png"></image>
-				<view>行驶里程: </view>
+				<view>行驶里程：</view>
 				<view>{{info.distance}}</view>
 			</view>
 		</view>
 		<view class="flex self-start">
 			<view class="margin-right-xs radius info-center">
 				<image class="info-icon" src="/image/info/object.png"></image>
-				<view>目的地: </view>
+				<view>目的地：</view>
 				<view>{{info.destinations}}</view>
 			</view>
 			<view class="radius info-center">
 				<image class="info-icon" src="/image/info/price.png"></image>
-				<view>参考费用: </view>
+				<view>参考费用：</view>
 				<view>{{info.unit_price}}</view>
 			</view>
 		</view>
@@ -167,7 +167,7 @@
 						</view>
 
 						<view class="third flex">
-							<view class="pic" wx:for="{{dayItem.pictures}}" wx:for-item="innerItem"  data-url="{{innerItem}}" bindtap="showPic" wx:key="index" style=" background-image: url({{innerItem}});background-size:100% 100%;">
+							<view class="pic" wx:for="{{dayItem.pictures}}" wx:for-item="innerItem" data-url="{{innerItem}}" bindtap="showPic" wx:key="index" style=" background-image: url({{innerItem}});background-size:100% 100%;">
 							</view>
 						</view>
 

@@ -21,7 +21,7 @@ App({
 
 	},
 	globalData: {
-		apiUrl:'https://www.gaidelushu.com',
+		// apiUrl:'https://www.gaidelushu.com',
 		startDefault:0,//默认出发地的index
 		startLocation:[],//出发地点列表
 	}
