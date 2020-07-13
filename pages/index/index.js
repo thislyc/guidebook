@@ -201,7 +201,7 @@ Page({
       e.chirdTabCur = 0
     })
     this.setData({
-      pageNum:1,
+      pageNum: 1,
       object: '',
       info: info
     })
@@ -248,8 +248,25 @@ Page({
       success: (result) => {
         if (result.tapIndex == 0) {
           wx.scanCode({
-            complete: (res) => {},
-            fail: (res) => {},
+            complete: (res) => {
+              let data = JSON.parse(res.result)
+              if (data.source && data.token) {
+                wx.navigateTo({
+                  url: '../info/info?id=' + data.id + '&source=' + data.source + '&token=' + data.token,
+                })
+              }
+
+            },
+            fail: (res) => {
+              wx.showModal({
+                confirmText: '确定',
+                showCancel: false,
+                title: '二维码错误',
+                success: (result) => {},
+                fail: (res) => {},
+                complete: (res) => {},
+              })
+            },
             onlyFromCamera: false,
             scanType: [],
             success: (result) => {},

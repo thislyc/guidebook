@@ -18,7 +18,7 @@
 			</view>
 			<view class="info-right">
 				<view class="cu-btn round line-yellow button-hover down" wx:if="{{!isLixian}}" bindtap="lixianTap">离线</view>
-				<view class="cu-btn round line-yellow button-hover down" wx:if="{{isLixian}}">已离线</view>
+				<view class="cu-btn round bg-white down" wx:if="{{isLixian}}"></view>
 
 				<button class="cu-btn icon button-hover bg-white" open-type="share">
 					<image class="share" src="/image/info/share.png"></image>
@@ -155,7 +155,7 @@
 				</view>
 
 				<view class="detail" wx:if="{{!item.isDetail}}">
-					<view wx:for="{{item.places}}" wx:key="index" wx:for-item="dayItem">
+					<view wx:for="{{item.places}}" wx:key="dayIndex" wx:for-item="dayItem" wx:for-index="dayIndex">
 						<view class="flex align-center place" wx:for="{{dayItem.extras}}" wx:key="index" wx:for-item="extrasItem">
 							<view class="place-fenlei">{{extrasItem.title}}</view>
 							<view class="place-name">{{extrasItem.content}}</view>
@@ -167,11 +167,13 @@
 						</view>
 
 						<view class="third flex">
-							<view class="pic" wx:for="{{dayItem.pictures}}" wx:for-item="innerItem" data-url="{{innerItem}}" bindtap="showPic" wx:key="index" style=" background-image: url({{innerItem}});background-size:100% 100%;">
+							<view class="pic" wx:for="{{dayItem.pictures}}" wx:for-item="innerItem"  data-url="{{innerItem}}" bindtap="showPic" wx:key="index" style=" background-image: url({{innerItem}});background-size:100% 100%;">
 							</view>
 						</view>
 
-						<view class="place-desc">{{dayItem.description}}</view>
+						<view class="place-desc  {{dayItem.ellipsis?'ellipsis':'unellipsis'}}">{{dayItem.description}}</view>
+						<text class="cuIcon-unfold lg text-black" data-index="{{index}}" data-innerIndex="{{dayIndex}}" bindtap="ellipsisTap" wx:if="{{dayItem.ellipsis&&dayItem.description}}"></text>
+						<text class="cuIcon-fold lg text-black" data-index="{{index}}" data-innerIndex="{{dayIndex}}" bindtap="ellipsisTap" wx:if="{{!dayItem.ellipsis&&dayItem.description}}"></text>
 
 					</view>
 				</view>

@@ -32,13 +32,14 @@ Page({
       introduce: {},
       budget: {}
     },
-    isLixian:false,
+    isLixian: false,
     activeFujin: {},
     markers: [],
     polyline: [],
     fixed: false,
     fixed2: false,
-    mySelect: {}
+    mySelect: {},
+    scanInfo: null
   },
 
   //滚动条监听
@@ -65,10 +66,45 @@ Page({
    */
   onLoad: function (options) {
     if (options.id) {
+
       this.setData({
         id: options.id
       })
-      this.getData()
+
+      if (options.source && options.token) {
+        this.setData({
+          scanInfo: options
+        })
+        let data = wx.getStorageSync(this.data.id) || null
+        let ids = wx.getStorageSync('ids') || null
+        if (ids && ids.length >= 2||data) {
+          this.setData({
+            isLixian: true
+          })
+        }
+        this.getData()
+        console.log('扫码进')
+        return;
+      }
+
+      let data = wx.getStorageSync(this.data.id) || null
+      if (data) {
+        console.log("读缓存")
+        this.setData({
+          info: data.info,
+          polyline: data.polyline,
+          markers: data.markers,
+          isLixian: true
+        })
+      } else {
+        let ids = wx.getStorageSync('ids') || null
+        if (ids && ids.length >= 2) {
+          this.setData({
+            isLixian: true
+          })
+        }
+        this.getData()
+      }
     } else {
       wx.navigateBack({
         delta: 0,
@@ -90,6 +126,12 @@ Page({
         mySelect: rect
       })
     }).exec();
+
+    query.select('.place-desc').boundingClientRect(function (rect) {
+      console.log(rect)
+    }).exec();
+
+
   },
 
 
@@ -119,14 +161,29 @@ Page({
 
 
   getData() {
+    let data = {}
+    if (this.data.scanInfo) {
+      data = {
+        source: this.data.scanInfo.source,
+        token: this.data.scanInfo.token
+      }
+    }
     wx.request({
       url: app.globalData.apiUrl + '/api/v1/trips/' + this.data.id + '.json',
-      data: {},
+      data: data,
       method: "POST",
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: (res) => {
+        let scanInfo = this.data.scanInfo
+        if (scanInfo) {
+          let data = []
+          scanInfo.title = res.data.trip.title
+          data.push(scanInfo)
+          wx.setStorageSync('scanCode', data)
+        }
+
         this.setData({
           info: res.data.trip
         })
@@ -138,9 +195,9 @@ Page({
           width: 2,
           dottedLine: true
         }]
-        let routes = this.data.info.routes
-        routes.forEach(e => {
-          e.isDetail = true
+        let info = this.data.info
+        info.routes.forEach(e => {
+          e.isDetail = false
           e.waypoints.forEach(i => {
             // i.callout = {
             //   content: i.name,
@@ -159,7 +216,14 @@ Page({
           })
         })
 
+        info.introduce.daily.forEach(e => {
+          e.places.forEach(e => {
+            e.ellipsis = true
+          })
+        })
+
         this.setData({
+          info: info,
           polyline: polyline,
           markers: markers
         })
@@ -225,9 +289,30 @@ Page({
     })
   },
 
+  //介绍详情折叠
+  ellipsisTap(e) {
+    let index = e.currentTarget.dataset.index
+    let innerIndex = e.currentTarget.dataset.innerindex
+    console.log(e)
+    console.log(innerIndex)
+    let info = this.data.info
+    info.introduce.daily[index].places[innerIndex].ellipsis = !info.introduce.daily[index].places[innerIndex].ellipsis
+    this.setData({
+      info: info
+    })
+  },
+
   //点击离线
   lixianTap() {
     wx.setStorageSync(this.data.id, this.data)
+    let ids = wx.getStorageSync('ids') || null
+    if (!ids) {
+      ids = []
+    }
+    ids.push(this.data.id)
+    wx.setStorageSync('ids', ids)
+    wx.setStorageSync(this.data.id, this.data)
+
     wx.showToast({
       title: '缓存成功',
       duration: 1000,
@@ -235,7 +320,7 @@ Page({
       mask: true,
     })
     this.setData({
-      isLixian:true
+      isLixian: true
     })
   },
 

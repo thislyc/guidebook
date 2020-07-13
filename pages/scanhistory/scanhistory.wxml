@@ -2,3 +2,9 @@
 <cu-custom isBack="{{true}}" bgColor="bg-oem-yellow">
 	<view slot="content" style="font-family: PingFangSC-bold;font-weight:bold;">扫码记录</view>
 </cu-custom>
+
+<view class="list" style="margin-top:10rpx;">
+	<view class="cell" wx:for="{{list}}" data-item="{{item}}" wx:key="index" bindtap="gotoInfo">
+		<view class="first word-line" style="padding-top:0;">{{item.title}}</view>
+	</view>
+</view>
