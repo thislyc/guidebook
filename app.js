@@ -21,7 +21,8 @@ App({
 
 	},
 	globalData: {
-		// apiUrl:'https://www.gaidelushu.com',
+		//仅供参考 后端没有写
+		apiUrl:'https://www.jieyou.club/mock',
 		startDefault:0,//默认出发地的index
 		startLocation:[],//出发地点列表
 	}
