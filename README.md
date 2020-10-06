@@ -7,15 +7,15 @@
 
 详情页面：有吸顶，文字折叠等实现 也是可以参考一下的
 
-![首页](https://github.com/thislyc/guidebook/tree/master/doc/1.png)
+![首页](./doc/1.png)
 
-![首页](https://github.com/thislyc/guidebook/tree/master/doc/2.png)
+![首页](./doc/2.png)
 
-![首页](https://github.com/thislyc/guidebook/tree/master/doc/3.png)
+![首页](./doc/3.png)
 
-![首页](https://github.com/thislyc/guidebook/tree/master/doc/4.png)
+![首页](./doc/4.png)
 
-![首页](https://github.com/thislyc/guidebook/tree/master/doc/5.mp4)
+![首页](./doc/5.mp4)
 
 
 ## 接口文档
