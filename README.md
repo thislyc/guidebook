@@ -7,6 +7,10 @@
 
 详情页面：有吸顶，文字折叠等实现 也是可以参考一下的
 
+<p align="center">
+  <img src="https://img.shields.io/github/license/balancemymoney/balance-open.svg?style=flat-square"/>
+</p>
+
 ![首页](./doc/1.png)
 
 ![首页](./doc/2.png)
