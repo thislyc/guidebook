@@ -6,6 +6,7 @@
 列表页面：每次小程序启动都会先去看缓存里面有没有数据 如果没有第一次才回去请求接口 如果有，第一次就不会请求接口而是直接拿缓存中的数据，然后提示用户去下拉刷新重新获取新的数据 （甲方要在用户没有网络的情况下依然可以良好的体验小程序 简直是无语）
 
 详情页面：有吸顶，文字折叠等实现 也是可以参考一下的
+<a href="https://gitee.com/thislyc/guidebook">gitee加速仓库</a>
 
 <p align="center">
   <img src="https://img.shields.io/github/license/balancemymoney/balance-open.svg?style=flat-square"/>
